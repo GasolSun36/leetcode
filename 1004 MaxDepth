@@ -1,0 +1,61 @@
+第一遍代码，有两个用例没有通过，因为超时了
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+	int maxDepth(TreeNode* root) {
+		if (root==NULL)
+		{
+			return 0;
+		}
+		if (root->left==NULL&&root->right==NULL)
+		{
+			return 1;
+		}
+		else {
+			return maxDepth(root->left) >= maxDepth(root->right) ? maxDepth(root->left) + 1 : maxDepth(root->right) + 1;
+		}
+	}
+};
+第二遍代码，发现
+if (root->left==NULL&&root->right==NULL)
+		{
+			return 1;
+		}
+这一步是多余的，因为如果其中某一个值为NULL时在下一步已经可以做到加1了，所以这步没必要，所以删去，但还是超时
+第三遍代码:
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+	int maxDepth(TreeNode* root) {
+		if (root==NULL)
+		{
+			return 0;
+		}
+		/*if (root->left==NULL&&root->right==NULL)
+		{
+			return 1;
+		}*/
+		else {
+			int left_depth = maxDepth(root->left);
+			int right_depth = maxDepth(root->right);
+			return left_depth >= right_depth ? left_depth + 1 : right_depth + 1;
+		}
+	}
+};
+超时的原因是因为每一步计算maxdepth都要进行递归操作，但是使用left_depth和right_depth保存结果后后续只需要比较一次即可，省去了两步递归，减少了运行时间
