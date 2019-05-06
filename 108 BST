@@ -1,0 +1,27 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+	TreeNode* sortedArrayToBST(vector<int>& nums) {
+		if (nums.empty())
+		{
+			return NULL;
+		}
+		int middle = nums.size() / 2;//找中间的节点
+		TreeNode* root = new TreeNode(nums[middle]);//将中间的节点置为根		
+    //新建两个vector分别存储中间结点两边的所有值，因为BST中根的左子树所有值小于根，右子树所有值大于根，所以左边的vector部分和右边的vector部分分别
+    对应新树的左右子树
+		vector <int> left_part = vector<int>(nums.begin(), nums.begin() + middle);
+		vector <int> right_part = vector<int>(nums.begin() + middle + 1, nums.end());
+		root->left = sortedArrayToBST(left_part);//递归左子树部分，即找left_part中的中间结点置为root的左子树的根
+		root->right = sortedArrayToBST(right_part);//同理递归右子树部分，即找right_part中的中间结点置为root的右子树的根
+		return root;
+	}
+};
