@@ -1,0 +1,26 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+	bool hasPathSum(TreeNode* root, int sum) {
+		if (root==NULL)
+		{
+			return false;
+		}
+		if (root->left==NULL&&root->right==NULL&&root->val==sum)
+		{
+			return true;
+		}
+		return hasPathSum(root->left, sum - root->val) || hasPathSum(root->right, sum - root->val);
+	}
+};
+思路：如果root==NULL肯定返回false
+如果root的左右孩子都是NULL表示它为叶子，并且它的值为sum，表示存在从根到叶子的通路使其路径上所有数相加为sum
+返回从root的左孩子或右孩子开始找，并且sum的值变为sum-val
